@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#faf6ee"><title>日常小光｜感恩日記</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="icon" href="./icon-192.png"><meta name="theme-color" content="#faf6ee"><title>日常小光｜感恩日記</title>
 <style>
 :root{color-scheme:light;--ink:#3d3229;--muted:#746456;--paper:#faf6ee;--line:#e8ddcd;--accent:#854730}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.65}button,input,textarea{font:inherit;color:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.shell{width:min(100% - 36px,780px);margin:auto}header{border-bottom:1px solid var(--line)}.bar{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:10px}.brand{font-weight:750;letter-spacing:.13em;white-space:nowrap}.sun{color:#a35b38;font-size:1.3em;margin-right:5px}nav{display:flex;gap:6px}button{border:0;background:transparent;border-radius:12px;padding:8px 13px;min-height:42px}nav button[aria-current]{background:#efe1d3;color:#733923;font-weight:700}.hero{position:relative;overflow:hidden;margin:28px 0 22px;padding:29px 30px;background:#f1e4d3;border-radius:24px;isolation:isolate}.hero:after{content:"";position:absolute;z-index:-1;right:-24px;bottom:-78px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,#edc18a 0%,#f5d6ae 47%,transparent 71%)}h1,h2,h3,p{margin:0}h1,h2{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif}h1{font-size:clamp(2rem,7vw,3.1rem);line-height:1.25;letter-spacing:.04em;margin:4px 0 9px}h2{font-size:1.45rem}.muted{color:var(--muted);font-size:.9rem}.datebar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}input[type=date]{background:#fffaf3;border:1px solid var(--line);border-radius:10px;padding:8px;max-width:100%;min-height:42px}.cards{display:grid;gap:11px}.card{border-radius:16px;padding:13px 16px;background:#f7edce}.card:nth-child(2){background:#e7ece0}.card:nth-child(3){background:#f4e4df}.title{display:flex;align-items:center;gap:9px;font-weight:700}.number{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#ffffff9c;font-size:.85rem}textarea{display:block;width:100%;border:1px solid #5d463124;background:#ffffff8c;border-radius:10px;resize:vertical;padding:8px 10px;margin:6px 0 3px;min-height:57px}textarea::placeholder{color:#79695e}.select{display:flex;align-items:center;gap:7px;font-size:.84rem;color:#5d4b41;min-height:30px;width:fit-content}.select input{accent-color:var(--accent);width:17px;height:17px}.actions,.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.primary{color:white;background:var(--accent);font-weight:700}.secondary{background:#fffaf3;border:1px solid #d8c9b9}.status{min-height:1.7em;margin-top:8px}.history{display:grid;gap:10px;margin:14px 0}.entry{padding:15px;background:#fffaf3;border:1px solid var(--line);border-radius:15px}.entry ul{margin:5px 0;padding-left:22px}.entry li{white-space:pre-wrap;overflow-wrap:anywhere}.entry button{padding-left:0;color:var(--accent)}dialog{border:1px solid var(--line);border-radius:18px;background:var(--paper);color:var(--ink);padding:19px;width:min(100% - 32px,540px)}dialog::backdrop{background:#33241977}dialog textarea{min-height:155px}footer{padding:9px 0 24px}@media(max-width:390px){.shell{width:calc(100% - 24px)}.hero{padding:22px 19px}nav button{padding-inline:8px}}
 </style>
@@ -16,15 +16,40 @@
 <div class="cards" id="cards"></div>
 <div class="actions"><button class="primary" type="submit">儲存日記</button><button type="button" class="secondary" id="preview">預覽分享內容</button></div>
 </form></section>
-<section id="past" hidden><div class="datebar"><h2>日記回顧</h2><button id="backup" class="secondary">下載備份</button></div><div id="history" class="history"></div><div class="tools"><label class="muted">匯入日記備份 <input id="restore" type="file" accept=".json,application/json"></label></div></section>
+<section id="past" hidden><div class="datebar"><h2>日記回顧</h2><button id="backup" class="secondary">下載備份</button></div><div id="history" class="history"></div><div class="tools"><button id="backupWords" class="secondary">複製／貼上備份文字</button><label class="muted">匯入日記備份 <input id="restore" type="file" accept=".json,application/json"></label></div></section>
 <p class="status muted" id="status" role="status"></p>
-<footer class="muted">日記存在這台裝置的瀏覽器。要傳給家人朋友時，可以逐件勾選。</footer>
+<footer class="muted"><button id="installApp" class="secondary" type="button">安裝到手機主畫面</button><p>日記存在這台裝置的瀏覽器。要傳給家人朋友時，可以逐件勾選。</p></footer>
 </main>
-<dialog id="shareBox"><h2>分享給家人朋友</h2><p class="muted">以下是你勾選的內容，可複製到 LINE。</p><textarea id="shareText" aria-label="分享文字" readonly></textarea><div class="actions"><button class="primary" id="copy">複製文字</button><button class="secondary" id="send" hidden>開啟手機分享選單</button><form method="dialog"><button>關閉</button></form></div><p class="muted" id="shareStatus" role="status"></p></dialog>
+<dialog id="shareBox"><h2>分享給家人朋友</h2><p class="muted">以下是你勾選的內容，可複製到 LINE。</p><label for="nickname">我的分享代稱</label><input id="nickname" type="text" maxlength="24" placeholder="例如：莉君" autocomplete="nickname" style="display:block;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fffaf3"><p class="muted">代稱會記在這個瀏覽器。</p><textarea id="shareText" aria-label="分享文字" readonly></textarea><div class="actions"><button class="primary" id="copy">複製文字</button><button class="secondary" id="send" hidden>開啟手機分享選單</button><form method="dialog"><button>關閉</button></form></div><p class="muted" id="shareStatus" role="status"></p></dialog>
+<dialog id="backupDialog"><h2>日記備份文字</h2><p>備份含全部日記。可複製到自己的記事本，或貼上舊備份再匯入。</p><textarea id="backupContent" aria-label="日記備份文字" spellcheck="false"></textarea><div class="actions"><button id="backupCopy" class="primary">複製文字</button><button id="backupImport" class="secondary">匯入文字</button><form method="dialog"><button>關閉</button></form></div><p id="backupFeedback" role="status"></p></dialog>
+<dialog id="installHelp"><h2>安裝日常小光</h2><p>從 LINE 開啟時，請先用選單改用外部瀏覽器。</p>
+<p><strong>Android</strong> 用 Chrome 開啟，點右上角 ⋮，選「新增至主畫面」或「安裝應用程式」。</p>
+<p><strong>iPhone</strong> 用 Safari 開啟，點「分享」→「加入主畫面」。若看到「打開為網頁 App」，請開啟後再按「加入」。</p>
+<form method="dialog"><button class="secondary">關閉</button></form></dialog>
 <script>
 const $ = id => document.getElementById(id);
 const key = "small-bright-days-v1";
 const maxLength = 600;
+const nicknameKey = key + "-nickname";
+const weekdays = ["日","一","二","三","四","五","六"];
+let sharedItems = [];
+try { $("nickname").value = localStorage.getItem(nicknameKey) || ""; }
+catch { /* Sharing still works when browser storage is unavailable. */ }
+function shareHeading(date,nickname){
+  const weekday = weekdays[new Date(date+"T12:00:00Z").getUTCDay()];
+  const name = nickname.trim();
+  return "☀ " + (name ? name+"的" : "") + "日常小光｜" + date + "（星期" + weekday + "）";
+}
+function updateSharePreview(){
+  $("shareText").value = shareHeading(loadedDate,$("nickname").value) + "\n\n" +
+    sharedItems.map((item,i)=>(i+1)+". "+item).join("\n\n");
+}
+$("nickname").addEventListener("input",()=>{
+  updateSharePreview();
+  $("shareStatus").textContent = "";
+  try { localStorage.setItem(nicknameKey,$("nickname").value.trim()); }
+  catch { $("shareStatus").textContent = "這次仍可分享。瀏覽器目前無法記住代稱。"; }
+});
 const prompts = ["哪個小片刻讓你微笑？","有誰讓你感受到一點溫暖？","今天有什麼想謝謝自己？"];
 const dateFormat = new Intl.DateTimeFormat("zh-TW",{dateStyle:"full"});
 const now = new Date();
@@ -113,7 +138,8 @@ $("historyTab").onclick=()=>{ if(canLeave()){ load(loadedDate); show(true); } };
 $("preview").onclick=()=>{
   const selected=values().filter((item,i)=>item && $("choose"+i).checked);
   if(!selected.length){ message("請先勾選一件有文字的好事。"); return; }
-  $("shareText").value="☀ 日常小光｜"+loadedDate+"\n\n"+selected.map((item,i)=>(i+1)+". "+item).join("\n\n");
+  sharedItems=selected;
+  updateSharePreview();
   $("shareStatus").textContent="";
   $("shareBox").showModal();
 };
@@ -141,22 +167,74 @@ function validEntry([date,items]){
     Array.isArray(items) && items.length===3 &&
     items.every(item=>typeof item==="string" && item.length<=maxLength) && items.some(item=>item.trim());
 }
-$("restore").onchange=async event=>{
-  const file=event.target.files[0]; event.target.value="";
-  if(!file) return;
+function restoreBackup(raw){
   try{
-    const data=JSON.parse(await file.text());
+    const data=JSON.parse(raw);
     if(data.format!=="日常小光" || !data.records || Array.isArray(data.records) || typeof data.records!=="object" || !Object.entries(data.records).every(validEntry)) throw Error();
     const fresh=Object.fromEntries(Object.entries(data.records).filter(([date])=>!Object.hasOwn(records,date)));
     if(save({...records,...fresh})){
       load(loadedDate); renderHistory();
       const total=Object.keys(fresh).length;
       message("已匯入 "+total+" 篇。同日期保留此裝置原本的日記。");
+      return true;
     }
-  } catch { message("這個檔案不是可讀取的日常小光備份。"); }
+  } catch { message("無法讀取備份，請確認檔案或貼上的文字完整。"); }
+  return false;
+}
+$("restore").onchange=async event=>{
+  const file=event.target.files[0]; event.target.value="";
+  if(!file) return;
+  try { restoreBackup(await file.text()); }
+  catch { message("無法讀取這個檔案。"); }
+};
+$("backupWords").onclick=()=>{
+  $("backupContent").value=Object.keys(records).length ? JSON.stringify({format:"日常小光",records},null,2) : "";
+  $("backupFeedback").textContent="";
+  $("backupDialog").showModal();
+};
+$("backupCopy").onclick=async ()=>{
+  const field=$("backupContent");
+  try {
+    await navigator.clipboard.writeText(field.value);
+    $("backupFeedback").textContent="已複製備份文字。";
+  } catch {
+    field.focus();
+    field.select();
+    $("backupFeedback").textContent="請長按選取全部文字，再按複製。";
+  }
+};
+$("backupImport").onclick=()=>{
+  if(restoreBackup($("backupContent").value)) $("backupDialog").close();
+  else $("backupFeedback").textContent=$("status").textContent;
 };
 load(localDate);
 if(!storageReadable) message("目前無法讀取瀏覽器內的日記。");
+let installPrompt;
+const standalone = matchMedia("(display-mode: standalone)");
+function updateInstallButton(){
+  $("installApp").hidden = standalone.matches || navigator.standalone === true;
+}
+updateInstallButton();
+standalone.addEventListener("change",updateInstallButton);
+window.addEventListener("beforeinstallprompt",event=>{
+  event.preventDefault();
+  installPrompt=event;
+});
+window.addEventListener("appinstalled",()=>{
+  installPrompt=undefined;
+  $("installApp").hidden=true;
+});
+$("installApp").onclick=async ()=>{
+  if(!installPrompt){ $("installHelp").showModal(); return; }
+  const prompt=installPrompt;
+  installPrompt=undefined;
+  try { await prompt.prompt(); }
+  catch { $("installHelp").showModal(); }
+};
+if("serviceWorker" in navigator && location.protocol==="https:"){
+  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
 </script>
 </body>
 </html>
+
